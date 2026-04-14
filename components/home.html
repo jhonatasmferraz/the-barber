@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Barber</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Oswald:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+      :root {
+        --gold: rgb(171, 105, 13);
+        --gold-light: rgb(233, 183, 118);
+        --gold-dim: rgba(171, 105, 13, 0.25);
+        --dark: #0d0d0d;
+        --dark-2: #111;
+        --dark-3: #161616;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { background: var(--dark); scroll-behavior: smooth; }
+
+      .eyebrow {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 7px;
+        color: var(--gold);
+        text-transform: uppercase;
+        display: block;
+      }
+
+      .rule {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 360px;
+      }
+
+      .rule::before,
+      .rule::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+
+      .diamond {
+        width: 5px;
+        height: 5px;
+        background: var(--gold);
+        transform: rotate(45deg);
+        flex-shrink: 0;
+      }
+
+      .section-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+        padding: 70px 20px 48px;
+      }
+
+      .section-header h2 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 36px;
+        font-weight: 600;
+        letter-spacing: 6px;
+        text-indent: 6px;
+        color: var(--gold-light);
+        text-transform: uppercase;
+      }
+
+      .section-header p {
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 300;
+        color: rgba(233, 183, 118, 0.4);
+        letter-spacing: 1px;
+        margin-top: 4px;
+      }
+
+      /* HEADER */
+      .header {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        height: 68px;
+        background: rgba(10, 10, 10, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--gold-dim);
+      }
+
+      .header-logo { height: 46px; width: 46px; object-fit: contain; }
+
+      .submenu {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .submenu img { width: 28px; }
+
+      .nav { display: flex; align-items: center; }
+
+      .close {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        position: absolute;
+        top: 18px;
+        right: 16px;
+        z-index: 201;
+      }
+
+      .close img { width: 26px; }
+
+      .lista { display: flex; list-style: none; gap: 4px; }
+
+      .lista a {
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: rgba(233, 183, 118, 0.65);
+        padding: 8px 14px;
+        transition: color 0.2s;
+        position: relative;
+      }
+
+      .lista a::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 14px; right: 14px;
+        height: 1px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transition: transform 0.25s ease;
+      }
+
+      .lista a:hover { color: var(--gold-light); }
+      .lista a:hover::after { transform: scaleX(1); }
+
+      /* HERO */
+      .hero {
+        height: 100vh;
+        background: url(../assets/sepia2.png) center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        padding: 0 24px;
+      }
+
+      .hero-content h2 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 80px;
+        font-weight: 700;
+        letter-spacing: 16px;
+        text-indent: 16px;
+        color: var(--gold-light);
+        text-transform: uppercase;
+        line-height: 1;
+      }
+
+      .hero-content p {
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        font-weight: 300;
+        color: rgba(233, 183, 118, 0.7);
+        max-width: 480px;
+        line-height: 1.9;
+        margin-top: 4px;
+      }
+
+      .btn-cta {
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: #000;
+        background: var(--gold);
+        border: none;
+        padding: 14px 48px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 12px;
+        transition: background 0.25s;
+      }
+
+      .btn-cta:hover { background: var(--gold-light); }
+
+      /* SERVICES */
+      .services-section {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr 1px 1fr;
+      }
+
+      .service-card {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .service-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+      }
+
+      .service-card:hover img { transform: scale(1.06); }
+
+      .service-label {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        padding: 60px 24px 22px;
+        background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      }
+
+      .service-label h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 5px;
+        text-indent: 5px;
+        color: var(--gold-light);
+        text-transform: uppercase;
+      }
+
+      .service-sep {
+        width: 1px;
+        background: rgba(171, 105, 13, 0.2);
+      }
+
+      /* ABOUT */
+      .about-section {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        align-items: stretch;
+        min-height: 580px;
+        background: url(../assets/thumb-1920-714662.png) center/cover no-repeat;
+        overflow: hidden;
+      }
+
+      .about-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.58);
+      }
+
+      .about-text {
+        position: relative;
+        z-index: 1;
+        padding: 80px 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .about-text h2 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 44px;
+        font-weight: 700;
+        letter-spacing: 8px;
+        color: var(--gold-light);
+        text-transform: uppercase;
+        line-height: 1;
+      }
+
+      .about-text p {
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        color: rgba(233, 183, 118, 0.75);
+        line-height: 2;
+        max-width: 480px;
+      }
+
+      .about-img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        min-height: 580px;
+      }
+
+      .about-marquee-wrap {
+        position: absolute;
+        bottom: 24px;
+        left: 0;
+        width: 65%;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .about-marquee {
+        font-family: 'Oswald', sans-serif;
+        font-size: 110px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.04);
+        white-space: nowrap;
+        animation: marquee 12s linear infinite;
+      }
+
+      @keyframes marquee {
+        from { transform: translateX(40%); }
+        to   { transform: translateX(-100%); }
+      }
+
+      /* CORTES */
+      .cortes-section { background: var(--dark-2); }
+
+      .cortes-carousel {
+        position: relative;
+        overflow: hidden;
+        padding: 0 0 60px;
+      }
+
+      .cortes-track {
+        display: flex;
+        gap: 4px;
+        transition: transform 0.45s ease;
+      }
+
+      .corte-slide {
+        flex: 0 0 calc(33.333% - 3px);
+        position: relative;
+        height: 580px;
+        overflow: hidden;
+        cursor: pointer;
+        background: var(--dark);
+      }
+
+      .cortes-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-calc(50% + 30px));
+        z-index: 10;
+        background: rgba(0,0,0,0.55);
+        border: 1px solid var(--gold-dim);
+        color: var(--gold-light);
+        font-size: 22px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s;
+      }
+
+      .cortes-btn:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #000;
+      }
+
+      .cortes-prev { left: 12px; }
+      .cortes-next { right: 12px; }
+
+      .l-fade-carousel,
+      .h-fade,
+      .b-cut,
+      .visagismo,
+      .nevou,
+      .reflexo {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        background: var(--dark);
+      }
+
+      .l-fade-carousel h2,
+      .h-fade h2,
+      .b-cut h2,
+      .visagismo h2,
+      .nevou h2,
+      .reflexo h2 {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        padding: 40px 16px 14px;
+        background: linear-gradient(to top, rgba(0,0,0,0.88), transparent);
+        font-family: 'Oswald', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-indent: 4px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        text-align: center;
+        z-index: 2;
+      }
+
+      .fade-img, .high-fade, .buzz, .visage, .neve, .reflex {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        opacity: 0;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        transform: scale(1);
+      }
+
+      .fade-img.active,
+      .high-fade.active,
+      .buzz.active,
+      .visage.active,
+      .neve.active,
+      .reflex.active {
+        opacity: 1;
+      }
+
+      .l-fade-carousel:hover .fade-img.active,
+      .h-fade:hover .high-fade.active,
+      .b-cut:hover .buzz.active,
+      .visagismo:hover .visage.active,
+      .nevou:hover .neve.active,
+      .reflexo:hover .reflex.active {
+        transform: scale(1.04);
+      }
+
+      /* PRICE LIST */
+      .price-section {
+        background: var(--dark-3);
+        border-top: 1px solid var(--gold-dim);
+        border-bottom: 1px solid var(--gold-dim);
+      }
+
+      .jobs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        list-style: none;
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 40px 70px;
+      }
+
+      .jobs li {
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(171, 105, 13, 0.1);
+        color: rgba(233, 183, 118, 0.35);
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 300;
+        transition: color 0.2s;
+      }
+
+      .jobs li:hover { color: rgba(233, 183, 118, 0.7); }
+
+      .jobs li span {
+        display: block;
+        font-family: 'Oswald', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(233, 183, 118, 0.8);
+        margin-bottom: 4px;
+      }
+
+      .jobs li:hover span { color: var(--gold); }
+
+      /* BOOKING */
+      .booking-section { background: var(--dark-2); }
+
+      .agenda-wrap {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        max-width: 860px;
+        margin: 0 auto;
+        border: 1px solid var(--gold-dim);
+      }
+
+      .cal-box {
+        border-right: 1px solid var(--gold-dim);
+        padding: 28px;
+      }
+
+      .cal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .cal-nav {
+        background: transparent;
+        border: 1px solid var(--gold-dim);
+        color: var(--gold-light);
+        width: 30px; height: 30px;
+        cursor: pointer;
+        font-size: 13px;
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.2s;
+      }
+      .cal-nav:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+
+      .cal-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+      }
+
+      .cal-weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        margin-bottom: 6px;
+      }
+      .cal-weekdays span {
+        font-family: 'Inter', sans-serif;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gold);
+        text-align: center;
+        padding: 4px 0;
+      }
+
+      .cal-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+      }
+
+      .cal-day {
+        aspect-ratio: 1;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        color: rgba(233, 183, 118, 0.2);
+        border: 1px solid transparent;
+        transition: all 0.15s;
+      }
+      .cal-day.available {
+        color: rgba(233, 183, 118, 0.75);
+        cursor: pointer;
+      }
+      .cal-day.available:hover { border-color: var(--gold-dim); color: var(--gold); }
+      .cal-day.today { border-color: rgba(171,105,13,0.35); }
+      .cal-day.selected { background: var(--gold); color: #000; font-weight: 600; }
+
+      .slots-box { padding: 28px; }
+
+      .slots-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        margin-bottom: 18px;
+      }
+
+      .slots-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+
+      .slot-btn {
+        padding: 9px 4px;
+        background: transparent;
+        border: 1px solid var(--gold-dim);
+        color: rgba(233, 183, 118, 0.6);
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.18s;
+        text-align: center;
+      }
+      .slot-btn.available:hover { border-color: var(--gold); color: var(--gold-light); }
+      .slot-btn.selected { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 600; }
+      .slot-btn.ocupado { opacity: 0.22; cursor: not-allowed; text-decoration: line-through; }
+
+      .slots-msg {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 13px;
+        color: rgba(233, 183, 118, 0.35);
+      }
+
+      .agenda-confirm {
+        display: none;
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 28px;
+        border: 1px solid var(--gold-dim);
+        border-top: none;
+        margin-bottom: 70px;
+      }
+      .agenda-confirm.show { display: block; }
+
+      .confirm-info {
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(233,183,118,0.5);
+        margin-bottom: 18px;
+      }
+      .confirm-info span { color: var(--gold-light); }
+
+      .confirm-name {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(171, 105, 13, 0.4);
+        color: var(--gold-light);
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        padding: 10px 4px;
+        outline: none;
+        margin-bottom: 20px;
+        color-scheme: dark;
+        display: block;
+      }
+      .confirm-name:focus { border-bottom-color: var(--gold); }
+
+      .confirm-btn {
+        background: var(--gold);
+        border: none;
+        color: #000;
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        padding: 13px 36px;
+        cursor: pointer;
+        transition: background 0.25s;
+      }
+      .confirm-btn:hover { background: var(--gold-light); }
+
+      .confirm-msg {
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        margin-top: 14px;
+        color: var(--gold);
+      }
+
+      @media (max-width: 768px) {
+        .agenda-wrap { grid-template-columns: 1fr; }
+        .cal-box { border-right: none; border-bottom: 1px solid var(--gold-dim); }
+        .slots-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+
+      #form-agendamento button:hover { background: var(--gold-light); }
+
+      /* FOOTER */
+      footer {
+        background: #080808;
+        border-top: 1px solid var(--gold-dim);
+        padding: 60px 40px 40px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+      }
+
+      .footer-brand h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        color: var(--gold-light);
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .footer-brand p {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 12px;
+        color: rgba(233, 183, 118, 0.3);
+      }
+
+      .footer-col h4 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 16px;
+      }
+
+      .footer-col p {
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 300;
+        color: rgba(233, 183, 118, 0.35);
+        line-height: 2.4;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .footer-col p:hover { color: var(--gold-light); }
+
+      .footer-copy {
+        grid-column: 1 / -1;
+        border-top: 1px solid rgba(171, 105, 13, 0.1);
+        padding-top: 24px;
+        text-align: center;
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 300;
+        letter-spacing: 3px;
+        color: rgba(233, 183, 118, 0.18);
+        text-transform: uppercase;
+      }
+
+      /* MOBILE */
+      @media (max-width: 768px) {
+        .header { padding: 0 20px; }
+        .submenu { display: flex; }
+
+        .nav {
+          position: fixed;
+          top: 0; right: -100%;
+          width: 220px;
+          height: 100vh;
+          background: rgba(10,10,10,0.98);
+          border-left: 1px solid var(--gold-dim);
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 70px 0 0;
+          transition: right 0.3s ease;
+          z-index: 200;
+        }
+
+        .nav.open { right: 0; }
+        .close { display: flex; }
+
+        .lista { flex-direction: column; width: 100%; gap: 0; }
+        .lista a {
+          display: block;
+          padding: 16px 24px;
+          border-bottom: 1px solid rgba(171,105,13,0.1);
+          font-size: 12px;
+        }
+
+        .hero-content h2 { font-size: 44px; letter-spacing: 8px; text-indent: 8px; }
+        .hero-content p { font-size: 13px; }
+
+        .services-section { grid-template-columns: 1fr; }
+        .service-sep { display: none; }
+        .service-card { height: 280px; }
+
+        .about-section { grid-template-columns: 1fr; }
+        .about-text { padding: 50px 24px; }
+        .about-img { min-height: 300px; height: 300px; }
+        .about-marquee { font-size: 60px; }
+
+        .cortes-grid { grid-template-columns: 1fr; }
+
+        .jobs { grid-template-columns: 1fr; padding: 0 24px 60px; }
+
+        #form-agendamento { padding: 28px 20px; }
+
+        footer {
+          grid-template-columns: 1fr;
+          padding: 40px 24px 32px;
+          gap: 32px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .l-fade-carousel, .h-fade, .b-cut,
+        .visagismo, .nevou, .reflexo { height: 220px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header class="header">
+      <img src="../assets/image 20.png" class="header-logo" alt="The Barber" />
+      <button class="submenu" aria-label="Menu">
+        <img src="../assets/background/menu_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="" />
+      </button>
+      <nav class="nav" id="main-nav">
+        <button class="close" aria-label="Fechar">
+          <img src="../assets/background/close_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="" />
+        </button>
+        <ul class="lista">
+          <li><a href="#">Home</a></li>
+          <li><a href="#form-agendamento">Horários</a></li>
+          <li><a href="assinatura.html">Assinatura</a></li>
+          <li><a href="#cortes">Cortes</a></li>
+          <li><a href="../index.html">Sair</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">Bem-vindo ao</span>
+        <div class="rule"><div class="diamond"></div></div>
+        <h2>The Barber</h2>
+        <div class="rule"><div class="diamond"></div></div>
+        <p>Uma barbearia moderna com uma dose retrô, que se diferencia pela forma tradicional de atendimento e proporciona um local confortável e agradável.</p>
+        <a href="#form-agendamento" class="btn-cta">Agendar Horário</a>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services-section">
+      <div class="service-card">
+        <img src="../assets/cabelo.webp" alt="Cabelo" />
+        <div class="service-label"><h3>Cabelo</h3></div>
+      </div>
+      <div class="service-sep"></div>
+      <div class="service-card">
+        <img src="../assets/barba.jpeg" alt="Barba" />
+        <div class="service-label"><h3>Barba</h3></div>
+      </div>
+      <div class="service-sep"></div>
+      <div class="service-card">
+        <img src="../assets/Kit-produtos-para-barba.jpg" alt="Produtos" />
+        <div class="service-label"><h3>Produtos</h3></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section">
+      <div class="about-text">
+        <span class="eyebrow">Nossa Barbearia</span>
+        <h2>Clube<br/>da Barba</h2>
+        <p>
+          Situado no bairro, o Clube da Barba destaca-se pela excelência com cortes
+          e estilos premium. Ambiente acolhedor, bebidas para consumo no local,
+          fliperama, jogos de tabuleiro, boas revistas e música — tudo pensado
+          para a sua experiência.
+        </p>
+      </div>
+      <img src="../assets/viking.png" class="about-img" alt="" />
+      <div class="about-marquee-wrap">
+        <div class="about-marquee">THE BARBER</div>
+      </div>
+    </section>
+
+    <!-- CORTES -->
+    <section id="cortes" class="cortes-section">
+      <div class="section-header">
+        <span class="eyebrow">Galeria</span>
+        <div class="rule"><div class="diamond"></div></div>
+        <h2>Estilos &amp; Cortes</h2>
+        <p>Clique em cada card para ver mais fotos</p>
+      </div>
+      <div class="cortes-carousel">
+        <button class="cortes-btn cortes-prev">&#8592;</button>
+        <div class="cortes-track">
+          <div class="corte-slide l-fade-carousel">
+            <img src="../assets/low-fade-1.png" class="fade-img active" alt="" />
+            <img src="../assets/low-fade-2.png" class="fade-img" alt="" />
+            <img src="../assets/low-fade-3.png" class="fade-img" alt="" />
+            <img src="../assets/low-fade-4.png" class="fade-img" alt="" />
+            <h2>Low Fade</h2>
+          </div>
+          <div class="corte-slide h-fade">
+            <img src="../assets/high-fade-1.png" class="high-fade active" alt="" />
+            <img src="../assets/high-fade-2.png" class="high-fade" alt="" />
+            <img src="../assets/high-fade-3.png" class="high-fade" alt="" />
+            <img src="../assets/high-fade-4.png" class="high-fade" alt="" />
+            <h2>High Fade</h2>
+          </div>
+          <div class="corte-slide b-cut">
+            <img src="../assets/buzz-cut.png" class="buzz active" alt="" />
+            <img src="../assets/buzz-cut-.png" class="buzz" alt="" />
+            <img src="../assets/buzz-cut--.png" class="buzz" alt="" />
+            <img src="../assets/buzz-cut---.png" class="buzz" alt="" />
+            <h2>Buzz Cut</h2>
+          </div>
+          <div class="corte-slide visagismo">
+            <img src="../assets/visagismo.webp" class="visage active" alt="" />
+            <img src="../assets/visagismo-.webp" class="visage" alt="" />
+            <img src="../assets/visagismo--.webp" class="visage" alt="" />
+            <img src="../assets/visagismo---.png" class="visage" alt="" />
+            <h2>Visagismo</h2>
+          </div>
+          <div class="corte-slide nevou">
+            <img src="../assets/nevou-1.webp" class="neve active" alt="" />
+            <img src="../assets/nevou-2.webp" class="neve" alt="" />
+            <img src="../assets/nevou-3.webp" class="neve" alt="" />
+            <img src="../assets/nevou-4.webp" class="neve" alt="" />
+            <h2>Nevou</h2>
+          </div>
+          <div class="corte-slide reflexo">
+            <img src="../assets/reflexo-1.webp" class="reflex active" alt="" />
+            <img src="../assets/reflexo-2.webp" class="reflex" alt="" />
+            <img src="../assets/reflexo-3.webp" class="reflex" alt="" />
+            <img src="../assets/reflexo-4.webp" class="reflex" alt="" />
+            <h2>Reflexo</h2>
+          </div>
+        </div>
+        <button class="cortes-btn cortes-next">&#8594;</button>
+      </div>
+    </section>
+
+    <!-- PRICE LIST -->
+    <section class="price-section">
+      <div class="section-header">
+        <span class="eyebrow">Serviços</span>
+        <div class="rule"><div class="diamond"></div></div>
+        <h2>Nossos Serviços</h2>
+      </div>
+      <ul class="jobs">
+        <li><span>Corte de Cabelo</span>Corte de todos os estilos</li>
+        <li><span>Barba com Toalha Quente</span>Procedimento com massageador</li>
+        <li><span>Corte + Barba</span>Combo completo</li>
+        <li><span>Pezinho</span>Acabamento e alinhamento</li>
+        <li><span>Barbaterapia</span>Limpeza, esfoliação e massageador</li>
+        <li><span>Selagem Cabelo Curto</span>Recuperação de cabelo</li>
+        <li><span>Tintura Cabelo Curto</span>&nbsp;</li>
+        <li><span>Reconstrução Cabelo Curto</span>&nbsp;</li>
+        <li><span>Tintura para Barba</span>&nbsp;</li>
+        <li><span>Relaxamento</span>&nbsp;</li>
+      </ul>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="booking-section" id="form-agendamento">
+      <div class="section-header">
+        <span class="eyebrow">Funcionamento</span>
+        <div class="rule"><div class="diamond"></div></div>
+        <h2>Agendar Horário</h2>
+        <p>Selecione um dia e horário disponível</p>
+      </div>
+
+      <div class="agenda-wrap">
+        <!-- Calendário -->
+        <div class="cal-box">
+          <div class="cal-header">
+            <button class="cal-nav" id="cal-prev">&#8592;</button>
+            <span class="cal-title" id="cal-title"></span>
+            <button class="cal-nav" id="cal-next">&#8594;</button>
+          </div>
+          <div class="cal-weekdays">
+            <span>Dom</span><span>Seg</span><span>Ter</span>
+            <span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+
+        <!-- Horários -->
+        <div class="slots-box">
+          <div class="slots-title" id="slots-title">Selecione um dia</div>
+          <div id="slots-grid"><p class="slots-msg">Clique em um dia disponível para ver os horários.</p></div>
+        </div>
+      </div>
+
+      <!-- Confirmação -->
+      <div class="agenda-confirm" id="agenda-confirm">
+        <div class="confirm-info">
+          Data: <span id="confirm-data-text"></span> &nbsp;·&nbsp; Horário: <span id="confirm-hora-text"></span>
+        </div>
+        <input type="text" class="confirm-name" id="confirm-nome" placeholder="Seu nome completo" />
+        <button class="confirm-btn" id="confirm-btn">Confirmar Agendamento</button>
+        <div class="confirm-msg" id="confirm-msg"></div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-brand">
+        <h3>The Barber</h3>
+        <p>Tradição que Transforma</p>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <p>Trabalhe Conosco</p>
+        <p>Sobre Nós</p>
+        <p>Nossas Barbearias</p>
+        <p>Baixe nosso App</p>
+      </div>
+      <div class="footer-col">
+        <h4>Ajuda</h4>
+        <p>Contate-nos</p>
+        <p>Políticas e Privacidade</p>
+        <p>Acessibilidade</p>
+        <p>Central de Ajuda</p>
+      </div>
+      <p class="footer-copy">Todos os direitos reservados &copy; 2025 &nbsp;·&nbsp; The Barber</p>
+    </footer>
+
+    <script>
+      /* Carrossel da seção */
+      const track    = document.querySelector('.cortes-track');
+      const slides   = document.querySelectorAll('.corte-slide');
+      const prevBtn  = document.querySelector('.cortes-prev');
+      const nextBtn  = document.querySelector('.cortes-next');
+      let current = 0;
+      const visible = 3;
+      const total   = slides.length;
+
+      function moveCarousel() {
+        const slideW = slides[0].offsetWidth + 4;
+        track.style.transform = `translateX(-${current * slideW}px)`;
+      }
+
+      prevBtn.addEventListener('click', () => {
+        current = current <= 0 ? total - visible : current - 1;
+        moveCarousel();
+      });
+      nextBtn.addEventListener('click', () => {
+        current = current >= total - visible ? 0 : current + 1;
+        moveCarousel();
+      });
+      moveCarousel();
+
+      /* Clique em cada card troca a imagem */
+      function stepCard(card, imgClass) {
+        const imgs = card.querySelectorAll('.' + imgClass);
+        const activeIdx = [...imgs].findIndex(i => i.classList.contains('active'));
+        imgs[activeIdx].classList.remove('active');
+        imgs[(activeIdx + 1) % imgs.length].classList.add('active');
+      }
+
+      document.querySelector('.l-fade-carousel').addEventListener('click', function() { stepCard(this, 'fade-img'); });
+      document.querySelector('.h-fade').addEventListener('click',          function() { stepCard(this, 'high-fade'); });
+      document.querySelector('.b-cut').addEventListener('click',           function() { stepCard(this, 'buzz'); });
+      document.querySelector('.visagismo').addEventListener('click',       function() { stepCard(this, 'visage'); });
+      document.querySelector('.nevou').addEventListener('click',           function() { stepCard(this, 'neve'); });
+      document.querySelector('.reflexo').addEventListener('click',         function() { stepCard(this, 'reflex'); });
+
+      /* ── Sistema de Agendamento ── */
+      const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                     'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+      let calYear, calMonth, selectedDate = null, selectedHora = null;
+
+      function initCal() {
+        const now = new Date();
+        calYear  = now.getFullYear();
+        calMonth = now.getMonth();
+        renderCal();
+      }
+
+      function renderCal() {
+        document.getElementById('cal-title').textContent = MESES[calMonth] + ' ' + calYear;
+        const grid      = document.getElementById('cal-grid');
+        grid.innerHTML  = '';
+        const firstDay  = new Date(calYear, calMonth, 1).getDay();
+        const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+        const today     = new Date(); today.setHours(0,0,0,0);
+
+        for (let i = 0; i < firstDay; i++)
+          grid.insertAdjacentHTML('beforeend', '<div class="cal-day"></div>');
+
+        for (let d = 1; d <= daysInMonth; d++) {
+          const date    = new Date(calYear, calMonth, d);
+          const isPast  = date < today;
+          const isSun   = date.getDay() === 0;
+          const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          const isToday = date.getTime() === today.getTime();
+          let cls = 'cal-day';
+          if (!isPast && !isSun) cls += ' available';
+          if (isToday)           cls += ' today';
+          if (dateStr === selectedDate) cls += ' selected';
+          grid.insertAdjacentHTML('beforeend',
+            `<div class="${cls}" ${(!isPast && !isSun) ? `data-date="${dateStr}"` : ''}>${d}</div>`);
+        }
+
+        grid.querySelectorAll('.cal-day.available').forEach(el =>
+          el.addEventListener('click', () => selectDate(el.dataset.date)));
+      }
+
+      function selectDate(dateStr) {
+        selectedDate = dateStr; selectedHora = null;
+        renderCal();
+        const [y, m, d] = dateStr.split('-');
+        document.getElementById('slots-title').textContent = `${parseInt(d)} de ${MESES[parseInt(m)-1]}`;
+        document.getElementById('slots-grid').innerHTML = '<p class="slots-msg">Carregando...</p>';
+        document.getElementById('agenda-confirm').classList.remove('show');
+
+        fetch(`horarios_disponiveis.php?data=${dateStr}`)
+          .then(r => r.json())
+          .then(data => renderSlots(data, dateStr))
+          .catch(() => {
+            document.getElementById('slots-grid').innerHTML = '<p class="slots-msg">Erro ao carregar horários.</p>';
+          });
+      }
+
+      function renderSlots(data, dateStr) {
+        const grid = document.getElementById('slots-grid');
+        if (data.fechado || !data.horarios?.length) {
+          grid.innerHTML = '<p class="slots-msg">Sem horários disponíveis neste dia.</p>';
+          return;
+        }
+        grid.innerHTML = '';
+        grid.className = 'slots-grid';
+        data.horarios.forEach(h => {
+          const btn = document.createElement('button');
+          btn.className = 'slot-btn ' + (h.disponivel ? 'available' : 'ocupado');
+          btn.textContent = h.hora;
+          btn.disabled = !h.disponivel;
+          if (h.disponivel)
+            btn.addEventListener('click', () => selectHora(h.hora, dateStr));
+          grid.appendChild(btn);
+        });
+      }
+
+      function selectHora(hora, dateStr) {
+        selectedHora = hora;
+        document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+        document.querySelectorAll('.slot-btn').forEach(b => { if (b.textContent === hora) b.classList.add('selected'); });
+        const [y, m, d] = dateStr.split('-');
+        document.getElementById('confirm-data-text').textContent = `${parseInt(d)} de ${MESES[parseInt(m)-1]}`;
+        document.getElementById('confirm-hora-text').textContent = hora;
+        document.getElementById('confirm-msg').textContent = '';
+        document.getElementById('agenda-confirm').classList.add('show');
+      }
+
+      document.getElementById('cal-prev').addEventListener('click', () => {
+        if (--calMonth < 0) { calMonth = 11; calYear--; } renderCal();
+      });
+      document.getElementById('cal-next').addEventListener('click', () => {
+        if (++calMonth > 11) { calMonth = 0; calYear++; } renderCal();
+      });
+
+      document.getElementById('confirm-btn').addEventListener('click', () => {
+        const nome = document.getElementById('confirm-nome').value.trim();
+        const msg  = document.getElementById('confirm-msg');
+        const btn  = document.getElementById('confirm-btn');
+        if (!nome) { msg.style.color='#e74c3c'; msg.textContent='Informe seu nome.'; return; }
+        btn.disabled = true; btn.textContent = 'Aguarde...';
+        const body = new FormData();
+        body.append('nome', nome); body.append('data', selectedDate); body.append('hora', selectedHora);
+        fetch('agendamento.php', { method: 'POST', body })
+          .then(r => r.text())
+          .then(res => {
+            msg.style.color = 'var(--gold)'; msg.textContent = res;
+            btn.disabled = false; btn.textContent = 'Confirmar Agendamento';
+            selectDate(selectedDate); // atualiza slots
+          })
+          .catch(() => {
+            msg.style.color='#e74c3c'; msg.textContent='Erro ao agendar.';
+            btn.disabled = false; btn.textContent = 'Confirmar Agendamento';
+          });
+      });
+
+      initCal();
+
+      /* Mobile nav */
+      const nav = document.getElementById('main-nav');
+      document.querySelector('.submenu').addEventListener('click', () => nav.classList.add('open'));
+      document.querySelector('.close').addEventListener('click',   () => nav.classList.remove('open'));
+    </script>
+  </body>
+</html>

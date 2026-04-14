@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Barber — Cadastro</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Oswald:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+      :root {
+        --gold: rgb(171, 105, 13);
+        --gold-light: rgb(233, 183, 118);
+        --gold-dim: rgba(171, 105, 13, 0.25);
+        --dark: #0d0d0d;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background: var(--dark);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 48px;
+      }
+
+      .eyebrow {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 7px;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+
+      .rule {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: min(320px, 80vw);
+      }
+
+      .rule::before,
+      .rule::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+
+      .diamond {
+        width: 5px;
+        height: 5px;
+        background: var(--gold);
+        transform: rotate(45deg);
+        flex-shrink: 0;
+      }
+
+      .brand h1 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 52px;
+        font-weight: 700;
+        letter-spacing: 14px;
+        text-indent: 14px;
+        color: var(--gold-light);
+        text-transform: uppercase;
+        line-height: 1;
+      }
+
+      .card {
+        width: min(440px, 100%);
+        border: 1px solid var(--gold-dim);
+        padding: 48px 40px;
+        position: relative;
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+
+      .card-header {
+        text-align: center;
+        margin-bottom: 36px;
+      }
+
+      .card-header .label {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 6px;
+        color: var(--gold);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .card-header h2 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+      }
+
+      .card-header .sub {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 13px;
+        color: rgba(233, 183, 118, 0.4);
+        margin-top: 8px;
+      }
+
+      .field {
+        margin-bottom: 24px;
+      }
+
+      .field label {
+        display: block;
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 8px;
+      }
+
+      .field input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(171, 105, 13, 0.4);
+        padding: 10px 0;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        color: var(--gold-light);
+        outline: none;
+        transition: border-color 0.25s;
+      }
+
+      .field input::placeholder {
+        color: rgba(233, 183, 118, 0.25);
+      }
+
+      .field input:focus {
+        border-bottom-color: var(--gold);
+      }
+
+      .btn-submit {
+        width: 100%;
+        background: transparent;
+        border: 1px solid rgba(171, 105, 13, 0.5);
+        padding: 14px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        cursor: pointer;
+        transition: background 0.25s, color 0.25s, border-color 0.25s;
+        margin-top: 8px;
+      }
+
+      .btn-submit:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #000;
+      }
+
+      .message {
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-align: center;
+        margin-top: 20px;
+        color: var(--gold-light);
+        min-height: 18px;
+      }
+
+      .footer-link {
+        text-align: center;
+        margin-top: 28px;
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        font-weight: 300;
+        color: rgba(233, 183, 118, 0.35);
+        letter-spacing: 1px;
+      }
+
+      .footer-link a {
+        color: var(--gold);
+        text-decoration: none;
+        letter-spacing: 2px;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .footer-link a:hover { color: var(--gold-light); }
+
+      .back-link {
+        position: absolute;
+        top: 28px;
+        left: 28px;
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: rgba(171, 105, 13, 0.5);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .back-link:hover { color: var(--gold); }
+
+      @media (max-width: 480px) {
+        .brand h1 { font-size: 36px; letter-spacing: 8px; text-indent: 8px; }
+        .card { padding: 40px 24px; }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="../index.html" class="back-link">← Voltar</a>
+
+    <div class="brand">
+      <span class="eyebrow">Barbearia &amp; Estilo</span>
+      <div class="rule"><div class="diamond"></div></div>
+      <h1>The Barber</h1>
+      <div class="rule"><div class="diamond"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="label">Novo Usuário</span>
+        <h2>Cadastro</h2>
+        <p class="sub">Crie sua conta</p>
+      </div>
+
+      <form id="cadastroForm">
+        <div class="field">
+          <label for="nome">Nome Completo</label>
+          <input type="text" name="nome" id="nome" placeholder="Seu nome completo" required />
+        </div>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" name="email" id="email" placeholder="seu@email.com" required />
+        </div>
+        <div class="field">
+          <label for="senha">Senha</label>
+          <input type="password" name="senha" id="senha" placeholder="Crie uma senha" required />
+        </div>
+        <button type="submit" class="btn-submit">Cadastrar</button>
+      </form>
+
+      <div id="mensagem" class="message"></div>
+
+      <p class="footer-link">
+        Já tem conta? <a href="signin.html">Sign In</a>
+      </p>
+    </div>
+
+    <script>
+      const form = document.querySelector('#cadastroForm');
+      const msg  = document.getElementById('mensagem');
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const btn = form.querySelector('.btn-submit');
+        btn.disabled = true;
+        btn.textContent = 'Cadastrando...';
+        msg.style.color = '';
+
+        fetch('cadastro.php', { method: 'POST', body: new FormData(form) })
+          .then(r => r.json())
+          .then(data => {
+            msg.innerText = data.msg;
+            if (data.status === 'success') {
+              msg.style.color = 'var(--gold)';
+              setTimeout(() => { location.href = 'signin.html'; }, 1800);
+            } else {
+              msg.style.color = '#c0392b';
+              btn.disabled = false;
+              btn.textContent = 'Cadastrar';
+            }
+          })
+          .catch(() => {
+            msg.innerText = 'Erro ao enviar. Tente novamente.';
+            msg.style.color = '#c0392b';
+            btn.disabled = false;
+            btn.textContent = 'Cadastrar';
+          });
+      });
+    </script>
+  </body>
+</html>

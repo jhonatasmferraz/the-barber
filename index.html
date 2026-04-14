@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Barber</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Oswald:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap');
+
+      :root {
+        --gold: rgb(171, 105, 13);
+        --gold-light: rgb(233, 183, 118);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background: #0a0a0a;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: auto;
+        padding: 32px 0 40px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .eyebrow {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 8px;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+
+      .rule {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: min(420px, 80vw);
+      }
+
+      .rule::before,
+      .rule::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+
+      .diamond {
+        width: 5px;
+        height: 5px;
+        background: var(--gold);
+        transform: rotate(45deg);
+        flex-shrink: 0;
+      }
+
+      h1 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 76px;
+        font-weight: 700;
+        letter-spacing: 18px;
+        text-indent: 18px;
+        color: var(--gold-light);
+        text-transform: uppercase;
+        line-height: 1;
+      }
+
+      .tagline {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 13px;
+        color: rgba(233, 183, 118, 0.4);
+        letter-spacing: 3px;
+      }
+
+      .cards {
+        width: min(1100px, 92vw);
+        margin-top: 42px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(200px, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        background: #111;
+        border: 1px solid rgba(233, 183, 118, 0.25);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+        text-align: center;
+        transition: transform 0.25s ease, border-color 0.25s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        border-color: var(--gold-light);
+      }
+
+      .card img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .card h2 {
+        font-family: 'Oswald', sans-serif;
+        margin: 16px 12px 8px;
+        font-size: 18px;
+        color: var(--gold-light);
+      }
+
+      .card p {
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        color: #ccc;
+        margin: 0 12px 18px;
+        line-height: 1.4;
+      }
+
+      .auth {
+        display: none;
+        flex-direction: row;
+        margin-top: 48px;
+      }
+
+      .btn {
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        background: transparent;
+        border: 1px solid rgba(171, 105, 13, 0.5);
+        padding: 14px 44px;
+        cursor: pointer;
+        transition: background 0.25s, color 0.25s, border-color 0.25s;
+      }
+
+      .btn-signin { border-right: none; }
+
+      .btn:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #000;
+      }
+
+      @media (max-width: 480px) {
+        h1 { font-size: 42px; letter-spacing: 8px; text-indent: 8px; }
+        .cards { grid-template-columns: 1fr; }
+        .auth { flex-direction: column; }
+        .btn-signin { border-right: 1px solid rgba(171,105,13,0.5); border-bottom: none; }
+      }
+
+      @media (max-width: 820px) {
+        .cards { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brand" id="brand">
+      <span class="eyebrow">Barbearia &amp; Estilo</span>
+      <div class="rule"><div class="diamond"></div></div>
+      <h1>The Barber</h1>
+      <div class="rule"><div class="diamond"></div></div>
+      <span class="tagline">Tradição que Transforma</span>
+    </div>
+
+    <section class="cards" aria-label="Cortes do dia">
+      <article class="card">
+        <img src="assets/low_fade.jpg" alt="Low Fade" />
+        <h2>Low Fade</h2>
+        <p>Transição suave com acabamento elegante, textura e estilo moderno.</p>
+      </article>
+      <article class="card">
+        <img src="assets/high_fade.jpg" alt="High Fade" />
+        <h2>High Fade</h2>
+        <p>Contraste forte, linhas precisas e volume controlado no topo.</p>
+      </article>
+      <article class="card">
+        <img src="assets/buzzcut.jpg" alt="Buzzcut" />
+        <h2>Buzzcut</h2>
+        <p>Corte curto e prático, clássico militar com visual arrojado.</p>
+      </article>
+      <article class="card">
+        <img src="assets/visagismo.jpg" alt="Visagismo" />
+        <h2>Visagismo</h2>
+        <p>Design facial personalizado, cortando por harmonia e proporção.</p>
+      </article>
+    </section>
+
+    <nav class="auth" id="auth">
+      <button class="btn btn-signin" id="btn-signin">Sign In</button>
+      <button class="btn" id="btn-cadastro">Cadastre&#8209;se</button>
+    </nav>
+
+    <script>
+      document.getElementById('brand').addEventListener('click', () => {
+        const a = document.getElementById('auth');
+        a.style.display = a.style.display === 'flex' ? 'none' : 'flex';
+      });
+      document.getElementById('btn-signin').addEventListener('click', e => {
+        e.stopPropagation();
+        location.href = 'components/signin.html';
+      });
+      document.getElementById('btn-cadastro').addEventListener('click', e => {
+        e.stopPropagation();
+        location.href = 'components/cadastro.html';
+      });
+    </script>
+  </body>
+</html>

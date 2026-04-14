@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Barber — Assinatura</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Oswald:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+      :root {
+        --gold: rgb(171, 105, 13);
+        --gold-light: rgb(233, 183, 118);
+        --gold-dim: rgba(171, 105, 13, 0.25);
+        --dark: #0d0d0d;
+        --dark-2: #111;
+        --dark-3: #161616;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { background: var(--dark); scroll-behavior: smooth; }
+
+      /* ── NAV ── */
+      header {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        height: 64px;
+        background: rgba(13, 13, 13, 0.88);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--gold-dim);
+      }
+
+      .header-brand {
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        text-decoration: none;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 32px;
+      }
+
+      nav ul a {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(233, 183, 118, 0.6);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      nav ul a:hover { color: var(--gold-light); }
+
+      /* ── HERO ── */
+      .hero {
+        min-height: 100vh;
+        background: url('../assets/barba.jpeg') center/cover no-repeat;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 24px 80px;
+        position: relative;
+        text-align: center;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.72);
+      }
+
+      .hero > * { position: relative; z-index: 1; }
+
+      .eyebrow {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 7px;
+        color: var(--gold);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 18px;
+      }
+
+      .rule {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: min(360px, 80vw);
+        margin: 0 auto 18px;
+      }
+
+      .rule::before,
+      .rule::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+
+      .diamond {
+        width: 5px;
+        height: 5px;
+        background: var(--gold);
+        transform: rotate(45deg);
+        flex-shrink: 0;
+      }
+
+      .hero h1 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 64px;
+        font-weight: 700;
+        letter-spacing: 10px;
+        text-indent: 10px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        line-height: 1;
+        margin-bottom: 18px;
+      }
+
+      .hero .tagline {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 16px;
+        color: rgba(233, 183, 118, 0.5);
+        letter-spacing: 2px;
+        margin-bottom: 36px;
+      }
+
+      .hero p {
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.9;
+        color: rgba(233, 183, 118, 0.55);
+        max-width: 520px;
+        margin: 0 auto;
+        letter-spacing: 0.5px;
+      }
+
+      .hero p span {
+        color: var(--gold-light);
+        font-weight: 500;
+      }
+
+      /* ── PLANS ── */
+      .plans {
+        padding: 100px 24px;
+        background: var(--dark-2);
+        text-align: center;
+      }
+
+      .section-head {
+        margin-bottom: 60px;
+      }
+
+      .section-head .eyebrow {
+        margin-bottom: 14px;
+      }
+
+      .section-head h2 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: 8px;
+        text-indent: 8px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        margin-bottom: 14px;
+      }
+
+      .section-head .sub {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 14px;
+        color: rgba(233, 183, 118, 0.4);
+        letter-spacing: 2px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+
+      .card {
+        border: 1px solid var(--gold-dim);
+        padding: 40px 32px;
+        position: relative;
+        transition: border-color 0.3s, transform 0.3s;
+        text-align: left;
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .card:hover {
+        border-color: rgba(171, 105, 13, 0.6);
+        transform: translateY(-4px);
+      }
+
+      .card:hover::before { opacity: 1; }
+
+      .card.featured {
+        border-color: rgba(171, 105, 13, 0.5);
+      }
+
+      .card.featured::before { opacity: 1; }
+
+      .card-tier {
+        font-family: 'Inter', sans-serif;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      .card h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        margin-bottom: 28px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--gold-dim);
+      }
+
+      .card ul {
+        list-style: none;
+        margin-bottom: 36px;
+      }
+
+      .card li {
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 300;
+        color: rgba(233, 183, 118, 0.65);
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(171, 105, 13, 0.1);
+        letter-spacing: 0.3px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .card li::before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: var(--gold);
+        transform: rotate(45deg);
+        flex-shrink: 0;
+      }
+
+      .btn-plan {
+        width: 100%;
+        background: transparent;
+        border: 1px solid rgba(171, 105, 13, 0.5);
+        padding: 12px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        cursor: pointer;
+        transition: background 0.25s, color 0.25s, border-color 0.25s;
+      }
+
+      .btn-plan:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #000;
+      }
+
+      .card.featured .btn-plan {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #000;
+      }
+
+      .card.featured .btn-plan:hover {
+        background: transparent;
+        color: var(--gold-light);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--dark);
+        border-top: 1px solid var(--gold-dim);
+        padding: 40px 24px;
+        text-align: center;
+      }
+
+      footer .footer-brand {
+        font-family: 'Oswald', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        margin-bottom: 12px;
+      }
+
+      footer p {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 12px;
+        color: rgba(233, 183, 118, 0.3);
+        letter-spacing: 2px;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        header { padding: 0 20px; }
+        nav ul { gap: 16px; }
+        .hero h1 { font-size: 40px; letter-spacing: 6px; text-indent: 6px; }
+        .cards { grid-template-columns: 1fr; max-width: 400px; }
+        .section-head h2 { font-size: 28px; }
+      }
+
+      @media (max-width: 480px) {
+        nav ul a { letter-spacing: 1px; font-size: 10px; }
+        nav ul { gap: 10px; }
+        .hero h1 { font-size: 32px; }
+        .card { padding: 32px 24px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="home.html" class="header-brand">The Barber</a>
+      <nav>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="home.html#form-agendamento">Agendar</a></li>
+          <li><a href="home.html#cortes">Cortes</a></li>
+          <li><a href="logout.php">Sair</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <span class="eyebrow">Clube Exclusivo</span>
+      <div class="rule"><div class="diamond"></div></div>
+      <h1>Bem-vindo<br>ao Clube</h1>
+      <div class="rule"><div class="diamond"></div></div>
+      <p class="tagline">Tradição que Transforma</p>
+      <p>
+        Corte e estilo <span>premium</span> sempre à sua mão.<br>
+        Junte-se ao clube de barbearia mais <span>exclusivo</span> da cidade.<br>
+        Assine, agende e receba o <span>tratamento que você merece</span>.
+      </p>
+    </section>
+
+    <section class="plans">
+      <div class="section-head">
+        <span class="eyebrow">Planos &amp; Benefícios</span>
+        <div class="rule" style="margin-bottom: 18px;"><div class="diamond"></div></div>
+        <h2>Assinaturas</h2>
+        <p class="sub">Escolha o plano ideal para você</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <span class="card-tier">Plano 01</span>
+          <h3>Essencial</h3>
+          <ul>
+            <li>6 Cortes de cabelo mensais</li>
+            <li>Prioridade no atendimento</li>
+            <li>Descontos em produtos</li>
+          </ul>
+          <button class="btn-plan" data-plano="essencial">Assinar</button>
+        </div>
+
+        <div class="card featured">
+          <span class="card-tier">Plano 02</span>
+          <h3>Premium</h3>
+          <ul>
+            <li>8 Barbas mensais</li>
+            <li>Presentes exclusivos</li>
+            <li>Descontos em produtos</li>
+          </ul>
+          <button class="btn-plan" data-plano="premium">Assinar</button>
+        </div>
+
+        <div class="card">
+          <span class="card-tier">Plano 03</span>
+          <h3>Deluxe</h3>
+          <ul>
+            <li>6 Cortes e 8 barbas mensais</li>
+            <li>Presentes exclusivos</li>
+            <li>Descontos em produtos</li>
+            <li>Descontos em lojas parceiras</li>
+            <li>Prioridade no atendimento</li>
+          </ul>
+          <button class="btn-plan" data-plano="deluxe">Assinar</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand">The Barber</div>
+      <div class="rule" style="max-width: 200px; margin: 12px auto 12px;"><div class="diamond"></div></div>
+      <p>Barbearia &amp; Estilo — Tradição que Transforma</p>
+    </footer>
+
+    <!-- Toast de feedback -->
+    <div id="toast" style="
+      display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%);
+      background:#111; border:1px solid rgba(171,105,13,0.5); color:rgb(233,183,118);
+      font-family:'Inter',sans-serif; font-size:13px; letter-spacing:1px;
+      padding:14px 28px; z-index:999; text-align:center; min-width:260px;
+    "></div>
+
+    <script>
+      // Verificação de sessão
+      fetch('check_session.php')
+        .then(r => r.json())
+        .then(data => {
+          if (!data.logged_in) window.location.href = 'signin.html';
+        })
+        .catch(() => { window.location.href = 'signin.html'; });
+
+      // Toast helper
+      function showToast(msg, isError) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.color = isError ? '#e74c3c' : 'rgb(233,183,118)';
+        t.style.display = 'block';
+        setTimeout(() => { t.style.display = 'none'; }, 3500);
+      }
+
+      // Botões de assinatura
+      document.querySelectorAll('.btn-plan').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const plano = btn.dataset.plano;
+          const original = btn.textContent;
+          btn.disabled = true;
+          btn.textContent = 'Processando...';
+
+          fetch('assinatura.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `plano=${encodeURIComponent(plano)}`
+          })
+            .then(r => r.json())
+            .then(data => {
+              showToast(data.msg, data.status !== 'success');
+              btn.disabled = false;
+              btn.textContent = data.status === 'success' ? 'Ativo' : original;
+            })
+            .catch(() => {
+              showToast('Erro ao processar. Tente novamente.', true);
+              btn.disabled = false;
+              btn.textContent = original;
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
