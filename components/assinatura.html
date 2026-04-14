@@ -248,9 +248,29 @@
         letter-spacing: 4px;
         text-transform: uppercase;
         color: var(--gold-light);
-        margin-bottom: 28px;
+        margin-bottom: 12px;
+      }
+
+      .card-price {
+        font-family: 'Oswald', sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid var(--gold-dim);
+        display: block;
+        letter-spacing: 1px;
+      }
+
+      .card-price span {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        color: rgba(233, 183, 118, 0.4);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-left: 4px;
       }
 
       .card ul {
@@ -310,6 +330,229 @@
       .card.featured .btn-plan:hover {
         background: transparent;
         color: var(--gold-light);
+      }
+
+      /* ── MODAL CARTÃO ── */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.82);
+        z-index: 500;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .modal-overlay.open { display: flex; }
+
+      .modal-box {
+        background: #111;
+        border: 1px solid var(--gold-dim);
+        width: min(480px, 100%);
+        position: relative;
+      }
+
+      .modal-box::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+
+      .modal-header {
+        padding: 28px 32px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .modal-header h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold-light);
+      }
+
+      .modal-close {
+        background: transparent;
+        border: none;
+        color: rgba(233,183,118,0.4);
+        font-size: 20px;
+        cursor: pointer;
+        line-height: 1;
+        transition: color 0.2s;
+      }
+      .modal-close:hover { color: var(--gold-light); }
+
+      /* Visual do cartão */
+      .credit-card {
+        margin: 24px 32px 0;
+        background: linear-gradient(135deg, #1a1200, #3a2800);
+        border: 1px solid rgba(171,105,13,0.4);
+        border-radius: 12px;
+        padding: 22px 24px;
+        height: 170px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .credit-card::before {
+        content: '';
+        position: absolute;
+        top: -40px; right: -40px;
+        width: 160px; height: 160px;
+        border-radius: 50%;
+        background: rgba(171,105,13,0.08);
+      }
+
+      .credit-card::after {
+        content: '';
+        position: absolute;
+        bottom: -60px; right: 40px;
+        width: 200px; height: 200px;
+        border-radius: 50%;
+        background: rgba(171,105,13,0.05);
+      }
+
+      .card-chip {
+        width: 36px; height: 26px;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        border-radius: 4px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-number-display {
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        font-weight: 300;
+        letter-spacing: 4px;
+        color: var(--gold-light);
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 8px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(233,183,118,0.4);
+        margin-bottom: 3px;
+      }
+
+      .card-value {
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: var(--gold-light);
+      }
+
+      .card-brand {
+        font-family: 'Oswald', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+
+      /* Campos do formulário */
+      .modal-form {
+        padding: 24px 32px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .modal-field label {
+        display: block;
+        font-family: 'Inter', sans-serif;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 7px;
+      }
+
+      .modal-field input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(171,105,13,0.35);
+        color: var(--gold-light);
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        font-weight: 300;
+        padding: 8px 4px;
+        outline: none;
+        transition: border-color 0.2s;
+        letter-spacing: 2px;
+        color-scheme: dark;
+      }
+      .modal-field input:focus { border-bottom-color: var(--gold); }
+      .modal-field input::placeholder { color: rgba(233,183,118,0.2); letter-spacing: 1px; }
+
+      .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+      .modal-plano-info {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(233,183,118,0.4);
+        padding: 12px 16px;
+        border: 1px solid var(--gold-dim);
+        text-align: center;
+      }
+      .modal-plano-info span { color: var(--gold-light); font-weight: 600; }
+
+      .modal-submit {
+        width: 100%;
+        background: var(--gold);
+        border: none;
+        color: #000;
+        font-family: 'Oswald', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        padding: 14px;
+        cursor: pointer;
+        transition: background 0.25s;
+        margin-top: 4px;
+      }
+      .modal-submit:hover { background: var(--gold-light); }
+
+      .modal-msg {
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-align: center;
+        min-height: 18px;
+        color: var(--gold);
+      }
+
+      @media (max-width: 480px) {
+        .modal-header, .credit-card, .modal-form { padding-left: 20px; padding-right: 20px; }
+        .credit-card { margin-left: 20px; margin-right: 20px; }
+        .card-number-display { font-size: 16px; letter-spacing: 2px; }
       }
 
       /* ── FOOTER ── */
@@ -393,8 +636,9 @@
         <div class="card">
           <span class="card-tier">Plano 01</span>
           <h3>Essencial</h3>
+          <strong class="card-price">R$ 140<span>/ mês</span></strong>
           <ul>
-            <li>6 Cortes de cabelo mensais</li>
+            <li>5 Cortes de cabelo mensais</li>
             <li>Prioridade no atendimento</li>
             <li>Descontos em produtos</li>
           </ul>
@@ -404,8 +648,10 @@
         <div class="card featured">
           <span class="card-tier">Plano 02</span>
           <h3>Premium</h3>
+          <strong class="card-price">R$ 110<span>/ mês</span></strong>
           <ul>
-            <li>8 Barbas mensais</li>
+            <li>3 Cortes de cabelo mensais</li>
+            <li>2 Barbas mensais</li>
             <li>Presentes exclusivos</li>
             <li>Descontos em produtos</li>
           </ul>
@@ -415,8 +661,9 @@
         <div class="card">
           <span class="card-tier">Plano 03</span>
           <h3>Deluxe</h3>
+          <strong class="card-price">R$ 170<span>/ mês</span></strong>
           <ul>
-            <li>6 Cortes e 8 barbas mensais</li>
+            <li>5 Cortes e 2 barbas mensais</li>
             <li>Presentes exclusivos</li>
             <li>Descontos em produtos</li>
             <li>Descontos em lojas parceiras</li>
@@ -433,6 +680,62 @@
       <p>Barbearia &amp; Estilo — Tradição que Transforma</p>
     </footer>
 
+    <!-- Modal Cartão -->
+    <div class="modal-overlay" id="modalCartao">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Dados do Cartão</h3>
+          <button class="modal-close" id="modalClose" aria-label="Fechar">&times;</button>
+        </div>
+
+        <!-- Visual do cartão -->
+        <div class="credit-card">
+          <div class="card-chip"></div>
+          <div class="card-number-display" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+          <div class="card-bottom">
+            <div>
+              <div class="card-label">Titular</div>
+              <div class="card-value" id="cardNameDisplay">NOME DO TITULAR</div>
+            </div>
+            <div>
+              <div class="card-label">Validade</div>
+              <div class="card-value" id="cardExpiryDisplay">MM/AA</div>
+            </div>
+            <div class="card-brand" id="cardBrand">VISA</div>
+          </div>
+        </div>
+
+        <!-- Info do plano selecionado -->
+        <div class="modal-form">
+          <div class="modal-plano-info">Assinando plano <span id="modalPlanoNome">—</span></div>
+
+          <div class="modal-field">
+            <label>Número do Cartão</label>
+            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+          </div>
+
+          <div class="modal-field">
+            <label>Nome do Titular</label>
+            <input type="text" id="cardName" placeholder="Como está no cartão" maxlength="26" autocomplete="cc-name">
+          </div>
+
+          <div class="modal-row">
+            <div class="modal-field">
+              <label>Validade</label>
+              <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" inputmode="numeric" autocomplete="cc-exp">
+            </div>
+            <div class="modal-field">
+              <label>CVV</label>
+              <input type="text" id="cardCvv" placeholder="•••" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+            </div>
+          </div>
+
+          <div class="modal-msg" id="modalMsg"></div>
+          <button class="modal-submit" id="modalSubmit">Confirmar Assinatura</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast de feedback -->
     <div id="toast" style="
       display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%);
@@ -442,13 +745,38 @@
     "></div>
 
     <script>
-      // Verificação de sessão
+      // Verificação de sessão + carrega plano ativo
       fetch('check_session.php')
         .then(r => r.json())
         .then(data => {
-          if (!data.logged_in) window.location.href = 'signin.html';
+          if (!data.logged_in) { window.location.href = 'signin.html'; return; }
+          carregarPlanoAtivo();
         })
         .catch(() => { window.location.href = 'signin.html'; });
+
+      function carregarPlanoAtivo() {
+        fetch('minha_assinatura.php')
+          .then(r => r.json())
+          .then(data => {
+            if (data.plano) marcarPlanoAtivo(data.plano);
+          });
+      }
+
+      function marcarPlanoAtivo(plano) {
+        document.querySelectorAll('.btn-plan').forEach(btn => {
+          if (btn.dataset.plano === plano) {
+            btn.textContent = 'Ativo';
+            btn.style.background = 'var(--gold)';
+            btn.style.color = '#000';
+            btn.style.borderColor = 'var(--gold)';
+          } else {
+            btn.textContent = 'Assinar';
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+          }
+        });
+      }
 
       // Toast helper
       function showToast(msg, isError) {
@@ -459,31 +787,123 @@
         setTimeout(() => { t.style.display = 'none'; }, 3500);
       }
 
-      // Botões de assinatura
+      // ── Modal logic ──
+      const overlay    = document.getElementById('modalCartao');
+      const modalClose = document.getElementById('modalClose');
+      const modalSubmit= document.getElementById('modalSubmit');
+      const modalMsg   = document.getElementById('modalMsg');
+      const modalPlanoNome = document.getElementById('modalPlanoNome');
+
+      const inpNumber  = document.getElementById('cardNumber');
+      const inpName    = document.getElementById('cardName');
+      const inpExpiry  = document.getElementById('cardExpiry');
+      const inpCvv     = document.getElementById('cardCvv');
+
+      const dispNumber = document.getElementById('cardNumberDisplay');
+      const dispName   = document.getElementById('cardNameDisplay');
+      const dispExpiry = document.getElementById('cardExpiryDisplay');
+      const dispBrand  = document.getElementById('cardBrand');
+
+      let planoSelecionado = null;
+
+      function abrirModal(plano) {
+        planoSelecionado = plano;
+        const nomes = { essencial: 'Essencial — R$ 140/mês', premium: 'Premium — R$ 110/mês', deluxe: 'Deluxe — R$ 170/mês' };
+        modalPlanoNome.textContent = nomes[plano] || plano;
+        modalMsg.textContent = '';
+        inpNumber.value = ''; inpName.value = ''; inpExpiry.value = ''; inpCvv.value = '';
+        dispNumber.textContent = '•••• •••• •••• ••••';
+        dispName.textContent   = 'NOME DO TITULAR';
+        dispExpiry.textContent = 'MM/AA';
+        dispBrand.textContent  = 'VISA';
+        overlay.classList.add('open');
+        inpNumber.focus();
+      }
+
+      function fecharModal() {
+        overlay.classList.remove('open');
+        planoSelecionado = null;
+      }
+
+      modalClose.addEventListener('click', fecharModal);
+      overlay.addEventListener('click', e => { if (e.target === overlay) fecharModal(); });
+
+      // Formatação e preview em tempo real
+      inpNumber.addEventListener('input', () => {
+        let v = inpNumber.value.replace(/\D/g, '').slice(0, 16);
+        inpNumber.value = v.replace(/(.{4})/g, '$1 ').trim();
+        const groups = v.padEnd(16, '•').match(/.{1,4}/g);
+        dispNumber.textContent = groups ? groups.join(' ') : '•••• •••• •••• ••••';
+        // Detectar bandeira
+        if      (/^4/.test(v))          dispBrand.textContent = 'VISA';
+        else if (/^5[1-5]/.test(v))     dispBrand.textContent = 'MASTER';
+        else if (/^3[47]/.test(v))      dispBrand.textContent = 'AMEX';
+        else if (/^6(?:011|5)/.test(v)) dispBrand.textContent = 'ELO';
+        else                            dispBrand.textContent = 'CARD';
+      });
+
+      inpName.addEventListener('input', () => {
+        const v = inpName.value.toUpperCase().replace(/[^A-Z\s]/g, '');
+        inpName.value = v;
+        dispName.textContent = v.trim() || 'NOME DO TITULAR';
+      });
+
+      inpExpiry.addEventListener('input', () => {
+        let v = inpExpiry.value.replace(/\D/g, '').slice(0, 4);
+        if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
+        inpExpiry.value = v;
+        dispExpiry.textContent = v || 'MM/AA';
+      });
+
+      // Botões de assinatura — abre modal
       document.querySelectorAll('.btn-plan').forEach(btn => {
         btn.addEventListener('click', () => {
-          const plano = btn.dataset.plano;
-          const original = btn.textContent;
-          btn.disabled = true;
-          btn.textContent = 'Processando...';
-
-          fetch('assinatura.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `plano=${encodeURIComponent(plano)}`
-          })
-            .then(r => r.json())
-            .then(data => {
-              showToast(data.msg, data.status !== 'success');
-              btn.disabled = false;
-              btn.textContent = data.status === 'success' ? 'Ativo' : original;
-            })
-            .catch(() => {
-              showToast('Erro ao processar. Tente novamente.', true);
-              btn.disabled = false;
-              btn.textContent = original;
-            });
+          if (btn.textContent.trim() === 'Ativo') return;
+          abrirModal(btn.dataset.plano);
         });
+      });
+
+      // Submit do modal
+      modalSubmit.addEventListener('click', () => {
+        const numero  = inpNumber.value.replace(/\s/g, '');
+        const nome    = inpName.value.trim();
+        const expiry  = inpExpiry.value.trim();
+        const cvv     = inpCvv.value.trim();
+
+        if (numero.length < 13 || numero.length > 16) { modalMsg.textContent = 'Número do cartão inválido.'; modalMsg.style.color = '#e74c3c'; return; }
+        if (!nome)                                     { modalMsg.textContent = 'Informe o nome do titular.'; modalMsg.style.color = '#e74c3c'; return; }
+        if (!/^\d{2}\/\d{2}$/.test(expiry))           { modalMsg.textContent = 'Validade inválida (MM/AA).'; modalMsg.style.color = '#e74c3c'; return; }
+        if (cvv.length < 3)                            { modalMsg.textContent = 'CVV inválido.'; modalMsg.style.color = '#e74c3c'; return; }
+
+        modalSubmit.disabled = true;
+        modalSubmit.textContent = 'Processando...';
+        modalMsg.textContent = '';
+
+        fetch('assinatura.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `plano=${encodeURIComponent(planoSelecionado)}`
+        })
+          .then(r => r.json())
+          .then(data => {
+            modalSubmit.disabled = false;
+            modalSubmit.textContent = 'Confirmar Assinatura';
+            if (data.status === 'success') {
+              const planoConfirmado = planoSelecionado;
+              fecharModal();
+              marcarPlanoAtivo(planoConfirmado);
+              showToast(data.msg, false);
+            } else {
+              modalMsg.textContent = data.msg || 'Erro ao processar.';
+              modalMsg.style.color = '#e74c3c';
+            }
+          })
+          .catch(() => {
+            modalSubmit.disabled = false;
+            modalSubmit.textContent = 'Confirmar Assinatura';
+            modalMsg.textContent = 'Erro de conexão. Tente novamente.';
+            modalMsg.style.color = '#e74c3c';
+          });
       });
     </script>
   </body>
