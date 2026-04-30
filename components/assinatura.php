@@ -26,23 +26,13 @@ $usuario_id  = $_SESSION['usuario_id'];
 $data_inicio = date('Y-m-d H:i:s');
 $data_fim    = date('Y-m-d H:i:s', strtotime('+1 month'));
 
-// Desativa assinaturas anteriores do usuário
-$stmt = $conn->prepare("UPDATE assinaturas SET ativo = 0 WHERE usuario_id = ?");
-$stmt->bind_param("i", $usuario_id);
-$stmt->execute();
-$stmt->close();
+$stmt = $pdo->prepare("UPDATE assinaturas SET ativo = 0 WHERE usuario_id = ?");
+$stmt->execute([$usuario_id]);
 
-// Insere nova assinatura
-$stmt = $conn->prepare("INSERT INTO assinaturas (usuario_id, plano, data_inicio, data_fim) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("isss", $usuario_id, $plano, $data_inicio, $data_fim);
-
-if ($stmt->execute()) {
+$stmt = $pdo->prepare("INSERT INTO assinaturas (usuario_id, plano, data_inicio, data_fim) VALUES (?, ?, ?, ?)");
+if ($stmt->execute([$usuario_id, $plano, $data_inicio, $data_fim])) {
     $nomePlano = ucfirst($plano);
     echo json_encode(['status' => 'success', 'msg' => "Plano {$nomePlano} ativado com sucesso!", 'plano' => $plano]);
 } else {
     echo json_encode(['status' => 'error', 'msg' => 'Erro ao realizar assinatura. Tente novamente.']);
 }
-
-$stmt->close();
-$conn->close();
-?>

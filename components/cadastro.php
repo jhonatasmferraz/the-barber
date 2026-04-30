@@ -28,32 +28,18 @@ if (strlen($senha) < 6) {
     exit();
 }
 
-// Verificando se o e-mail já está cadastrado
-$stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE email = ?");
+$stmt->execute([$email]);
+if ($stmt->fetchColumn() > 0) {
     echo json_encode(['status' => 'error', 'msg' => 'E-mail já cadastrado. Tente outro.']);
-    $stmt->close();
-    $conn->close();
     exit();
 }
-$stmt->close();
 
-// Criptografando a senha e inserindo
 $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+$stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)");
 
-$stmt = $conn->prepare("INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $nome, $email, $senhaHash);
-
-if ($stmt->execute()) {
+if ($stmt->execute([$nome, $email, $senhaHash])) {
     echo json_encode(['status' => 'success', 'msg' => 'Cadastro realizado com sucesso!']);
 } else {
     echo json_encode(['status' => 'error', 'msg' => 'Erro ao cadastrar. Tente novamente.']);
 }
-
-$stmt->close();
-$conn->close();
-?>

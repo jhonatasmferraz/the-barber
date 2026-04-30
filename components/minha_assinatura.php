@@ -10,17 +10,8 @@ if (!isset($_SESSION['usuario_id'])) {
 include 'conexao.php';
 
 $usuario_id = $_SESSION['usuario_id'];
-$stmt = $conn->prepare("SELECT plano FROM assinaturas WHERE usuario_id = ? AND ativo = 1 ORDER BY id DESC LIMIT 1");
-$stmt->bind_param("i", $usuario_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt = $pdo->prepare("SELECT plano FROM assinaturas WHERE usuario_id = ? AND ativo = 1 ORDER BY id DESC LIMIT 1");
+$stmt->execute([$usuario_id]);
+$row = $stmt->fetch();
 
-if ($row = $result->fetch_assoc()) {
-    echo json_encode(['plano' => $row['plano']]);
-} else {
-    echo json_encode(['plano' => null]);
-}
-
-$stmt->close();
-$conn->close();
-?>
+echo json_encode(['plano' => $row ? $row['plano'] : null]);

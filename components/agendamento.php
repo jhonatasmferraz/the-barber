@@ -18,30 +18,17 @@ if (empty($nome) || empty($data) || empty($hora)) {
     exit();
 }
 
-// Verificar se o horário já está ocupado
-$stmt = $conn->prepare("SELECT id FROM agendamentos WHERE data = ? AND hora = ?");
-$stmt->bind_param("ss", $data, $hora);
-$stmt->execute();
-$stmt->store_result();
-if ($stmt->num_rows > 0) {
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM agendamentos WHERE data = ? AND hora = ?");
+$stmt->execute([$data, $hora]);
+if ($stmt->fetchColumn() > 0) {
     echo "Este horário já foi reservado. Escolha outro.";
-    $stmt->close();
-    $conn->close();
     exit();
 }
-$stmt->close();
 
-// Inserir agendamento
-$stmt = $conn->prepare("INSERT INTO agendamentos (usuario_id, nome, data, hora) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("isss", $usuario_id, $nome, $data, $hora);
-
-if ($stmt->execute()) {
+$stmt = $pdo->prepare("INSERT INTO agendamentos (usuario_id, nome, data, hora) VALUES (?, ?, ?, ?)");
+if ($stmt->execute([$usuario_id, $nome, $data, $hora])) {
     $dataFmt = date('d/m/Y', strtotime($data));
     echo "Agendamento confirmado! {$nome}, até {$dataFmt} às {$hora}.";
 } else {
-    echo "Erro ao agendar: " . $conn->error;
+    echo "Erro ao agendar.";
 }
-
-$stmt->close();
-$conn->close();
-?>

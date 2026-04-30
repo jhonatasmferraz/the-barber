@@ -12,24 +12,14 @@ if (!isset($_POST['user'], $_POST['pass'])) {
 $user     = trim($_POST['user']);
 $password = trim($_POST['pass']);
 
-$stmt = $conn->prepare("SELECT id, nome, senha FROM usuarios WHERE nome = ? OR email = ?");
-$stmt->bind_param("ss", $user, $user);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt = $pdo->prepare("SELECT id, nome, senha FROM usuarios WHERE nome = ? OR email = ?");
+$stmt->execute([$user, $user]);
+$row = $stmt->fetch();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    if (password_verify($password, $row['senha'])) {
-        $_SESSION['usuario_id']   = $row['id'];
-        $_SESSION['usuario_nome'] = $row['nome'];
-        echo json_encode(['status' => 'success', 'nome' => $row['nome']]);
-    } else {
-        echo json_encode(['status' => 'invalid']);
-    }
+if ($row && password_verify($password, $row['senha'])) {
+    $_SESSION['usuario_id']   = $row['id'];
+    $_SESSION['usuario_nome'] = $row['nome'];
+    echo json_encode(['status' => 'success', 'nome' => $row['nome']]);
 } else {
     echo json_encode(['status' => 'invalid']);
 }
-
-$stmt->close();
-$conn->close();
-?>
